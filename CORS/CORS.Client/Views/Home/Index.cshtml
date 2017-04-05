@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div>
+    <input type="button" value="Get echo" onclick="getEcho()" />
+</div>
+<div>
+    <span id="echo">(Echo)</span>
+</div>
+
+<script>
+    function getEcho() {
+        $.ajax({
+            url: "http://localhost:61498//api/echo",
+            type: "GET"
+        }).done(function(data) {
+            $("#echo").text(data);
+        }).error(function(response) {
+            console.log(response);
+        });
+    }
+</script>
