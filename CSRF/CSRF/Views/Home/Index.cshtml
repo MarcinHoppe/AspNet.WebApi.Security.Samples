@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div>
+    <input type="button" value="Get echo" onclick="getEcho()" />
+</div>
+<div>
+    <span id="echo">(Echo)</span>
+</div>
+
+<hr />
+
+@Html.AntiForgeryToken()
+
+<div>
+    <input type="text" id="newMessage" />
+</div>
+<div>
+    <input type="button" value="Set echo" onclick="setEcho()" />
+</div>
+
+<script>
+    function getEcho() {
+        $.ajax({
+            url: "http://localhost:61895/api/echo",
+            type: "GET"
+        }).done(function(data) {
+            $("#echo").text(data);
+        }).error(function(response) {
+            console.log(response);
+        });
+    }
+
+    function setEcho() {
+        $.ajax({
+            url: "http://localhost:61895/api/echo",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify($("#newMessage").val()),
+            headers: {
+                "__RequestVerificationToken":
+                    $("input[name='__RequestVerificationToken']").val()
+            }
+        }).done(function (data) {
+            console.log(data);
+        });
+    }
+</script>

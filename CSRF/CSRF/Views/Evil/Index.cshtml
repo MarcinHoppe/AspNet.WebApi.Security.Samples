@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<input type="button" value="Win a new iPhone!" onclick="sendEvilEcho()" />
+
+<script>
+    function sendEvilEcho() {
+        $.ajax({
+            url: "http://localhost:61895/api/echo",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify("Attack!")
+        }).done(function () {
+            alert("Thanks for entering the contest!");
+        });
+    }
+</script>
