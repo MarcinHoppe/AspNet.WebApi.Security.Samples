@@ -19,24 +19,23 @@ namespace Filters
         {
             if (actionContext.RequestContext.Principal == null)
             {
-                var response = actionContext.Request.CreateErrorResponse(
+                var unauthorizedResponse = actionContext.Request.CreateErrorResponse(
                     HttpStatusCode.Unauthorized,
                     "Add Login and Role headers.");
 
-                return Task.FromResult(response);
+                return Task.FromResult(unauthorizedResponse);
             }
 
             if (actionContext.RequestContext.Principal.IsInRole("reader"))
             {
                 return continuation();
             }
-            {
-                var response = actionContext.Request.CreateErrorResponse(
-                    HttpStatusCode.Forbidden,
-                    "Only users in the `reader` role are authorized.");
 
-                return Task.FromResult(response);
-            }
+            var forbiddenResponse = actionContext.Request.CreateErrorResponse(
+                HttpStatusCode.Forbidden,
+                "Only users in the `reader` role are authorized.");
+
+            return Task.FromResult(forbiddenResponse);
         }
     }
 }
